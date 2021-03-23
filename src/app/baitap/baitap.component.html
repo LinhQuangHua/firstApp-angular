@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <input type="text" (input)="onInput($event)" placeholder="Event...">
+            </div>
+            <div>
+                <input type="text" [(ngModel)]="id" laceholder="Two way binding...">
+            </div>
+            <button [disabled]="enable" (click)=onClick()>Click</button>
+            <p>Homework {{id}}</p>
+            <p *ngIf="check; else noclick" [ngClass]="{greenFont: check}">Clicked!</p>
+            <ng-template #noclick>
+                <p [ngStyle]="{backgroundColor: color}">Not clicked!</p>
+            </ng-template>
+            <p *ngFor="let i of listNumber">{{ i }}</p>
+        </div>
+    </div>
+</div>
