@@ -3,7 +3,7 @@
 <main>
 
   <section class="container">
-    <app-product-list [products]="products" (onRemoveProduct)="RemoveProduct($event)"></app-product-list>
+    <app-product-list [products]="products" (onRemoveProduct)="RemoveProduct($event)" [(ngModel)]="numberItems" ></app-product-list>
   </section>
 
   <section class="container">
@@ -11,7 +11,7 @@
   </section>
 
   <section class="container">
-    <app-cart-summary [subTotal]="subTotal" [total] ="total" [tax]="tax"></app-cart-summary>
+    <app-cart-summary [subTotal]="subTotal" [total] ="total" [tax]="tax" [numberItems] ="numberItems"></app-cart-summary>
   </section>
 
   <!-- <section class="container">

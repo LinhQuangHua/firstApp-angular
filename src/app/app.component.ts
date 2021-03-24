@@ -19,28 +19,32 @@ export class AppComponent {
       price: 5.99,
       quantity: 20,
     }, 
-    {
-      id: '2',
-      name: 'Bí ẩn của đại dương',
-      description: 'Một tác phẩm nghệ thuật với cảm hứng đến từ rãnh Maria của Wang-kun tiên sinh! ',
-      thumbnail: '/assets/image/dive.jpg',
-      price: 9.99,
-      quantity: 20,
-    }, 
-    {
-      id: '3',
-      name: 'Vũ trụ màu qua đôi mắt',
-      description: 'Tác phẩm nghệ thuật xuất chúng của Wang-kun!',
-      thumbnail: '/assets/image/space.jpg',
-      price: 5.99,
-      quantity: 20,
-    }, 
+    // {
+    //   id: '2',
+    //   name: 'Bí ẩn của đại dương',
+    //   description: 'Một tác phẩm nghệ thuật với cảm hứng đến từ rãnh Maria của Wang-kun tiên sinh! ',
+    //   thumbnail: '/assets/image/dive.jpg',
+    //   price: 9.99,
+    //   quantity: 20,
+    // }, 
+    // {
+    //   id: '3',
+    //   name: 'Vũ trụ màu qua đôi mắt',
+    //   description: 'Tác phẩm nghệ thuật xuất chúng của Wang-kun!',
+    //   thumbnail: '/assets/image/space.jpg',
+    //   price: 5.99,
+    //   quantity: 20,
+    // }, 
   ]
-  items: number = 1;
-  numberItems: number = this.products.length;
-  subTotal: number = this.items * this.products[0].price;
+  numberItems: string = '10';
+  subTotal: number = parseInt(this.numberItems) * this.products[0].price;
   tax: number = 5;
   total: number = this.subTotal + this.tax;
+
+  onInput(event: Event)
+  {
+    this.numberItems = (<HTMLInputElement>event.target).value;
+  }
 
   RemoveProduct(productID: string)
   {
@@ -67,7 +71,7 @@ export class AppComponent {
     }
 
     this.subTotal = subTotal;
-    this.numberItems = numberItems; 
+    // this.numberItems = parse(numberItems.); 
     this.total = total;
     this.total === 0 ? this.tax = 0: this.tax = 5;
   }

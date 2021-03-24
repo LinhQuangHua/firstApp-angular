@@ -12,7 +12,8 @@ export class ProductListComponent implements OnInit {
   @Input() products;
   @Output() onRemoveProduct = new EventEmitter;
   constructor() { }
-
+  @Input() numberItems: string;
+  
   ngOnInit(): void {
   }
 

@@ -11,7 +11,7 @@ export class CartSummaryComponent implements OnInit {
   @Input() subTotal: number;
   @Input() total: number;
   @Input() tax: number;
-  
+  @Input() numberItems: string;
   
   constructor() { }
 
