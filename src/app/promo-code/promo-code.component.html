@@ -1,4 +1,11 @@
 <div class="promotion">
-    <label for="promo-code">Nhập mã giảm giá tại đây?</label>
-    <input type="text" id="promo-code" /> <button type="button"></button>
-  </div>
+  <label for="promo-code">Bạn có mã giảm giá không nào?</label>
+
+  <input
+    type="text"
+    [(ngModel)]="promoCode"
+    (keyup.enter)="applyPromoCode()"
+  />
+
+  <button type="button" (click)="applyPromoCode()"></button>
+</div>

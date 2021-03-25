@@ -1,21 +1,30 @@
-<app-header [numberItems] ="numberItems"></app-header>
-
 <main>
+  <header class="container">
+    <app-header [numberItems]="numberItems || 0"></app-header>
+  </header>
 
   <section class="container">
-    <app-product-list [products]="products" (onRemoveProduct)="RemoveProduct($event)" [(ngModel)]="numberItems" ></app-product-list>
+    <app-product-list
+      [products]="products"
+      (onUpdateQuantity)="handleUpdateQuantity($event)"
+      (onRemoveProduct)="handleRemoveProduct($event)"
+    ></app-product-list>
+
+    <div class="empty-product" *ngIf="products.length === 0">
+      <h3>There are no products in your cart.</h3>
+      <button>Shopping now</button>
+    </div>
   </section>
 
-  <section class="container">
-    <app-promo-code></app-promo-code>
+  <section class="container" *ngIf="products.length > 0">
+    <app-promo-code
+      (onApplyPromoCode)="handleApplyPromoCode($event)"
+    ></app-promo-code>
+
+    <app-cart-summary
+      [subTotal]="subTotal"
+      [discount]="discount"
+      [tax]="tax"
+    ></app-cart-summary>
   </section>
-
-  <section class="container">
-    <app-cart-summary [subTotal]="subTotal" [total] ="total" [tax]="tax" [numberItems] ="numberItems"></app-cart-summary>
-  </section>
-
-  <!-- <section class="container">
-    <app-baitap></app-baitap>
-  </section> -->
-
 </main>

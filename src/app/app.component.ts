@@ -1,7 +1,7 @@
 import { asLiteral } from '@angular/compiler/src/render3/view/util';
 import { Component } from '@angular/core';
 import { Product } from './product.model';
-
+import { PromoCode } from './promo-code.model';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent {
   
   products: Product[] = [
     {
-      id: '1',
+      id: 2,
       name: 'Vũ trụ màu qua đôi mắt',
       description: 'Tác phẩm nghệ thuật xuất chúng của Wang-kun!',
       thumbnail: '/assets/image/space.jpg',
@@ -20,7 +20,7 @@ export class AppComponent {
       quantity: 20,
     }, 
     // {
-    //   id: '2',
+    //   id: 2,
     //   name: 'Bí ẩn của đại dương',
     //   description: 'Một tác phẩm nghệ thuật với cảm hứng đến từ rãnh Maria của Wang-kun tiên sinh! ',
     //   thumbnail: '/assets/image/dive.jpg',
@@ -28,7 +28,7 @@ export class AppComponent {
     //   quantity: 20,
     // }, 
     // {
-    //   id: '3',
+    //   id: 3,
     //   name: 'Vũ trụ màu qua đôi mắt',
     //   description: 'Tác phẩm nghệ thuật xuất chúng của Wang-kun!',
     //   thumbnail: '/assets/image/space.jpg',
@@ -36,43 +36,66 @@ export class AppComponent {
     //   quantity: 20,
     // }, 
   ]
-  numberItems: string = '10';
-  subTotal: number = parseInt(this.numberItems) * this.products[0].price;
-  tax: number = 5;
-  total: number = this.subTotal + this.tax;
+  promoCodes: PromoCode[] = [
+    {
+      code: 'AUTUMN',
+      discountPercent: 10
+    },
+    {
+      code: 'WINTER',
+      discountPercent: 20
+    }
+  ];
 
-  onInput(event: Event)
-  {
-    this.numberItems = (<HTMLInputElement>event.target).value;
+  numberItems: number = 0;
+  subTotal: number = 0;
+  discountPercent: number = 0;
+  discount: number = 0;
+  taxPercent: number = 10;
+  tax: number = 0;
+
+
+  ngDoCheck() {
+    this.numberItems = 0;
+    this.subTotal = 0;
+    
+
+    for (const product of this.products) {
+      this.numberItems += product.quantity;
+      this.subTotal += product.price * product.quantity;
+    }
+
+    this.discount = (this.subTotal * this.discountPercent) / 100;
+    this.tax = ((this.subTotal - this.discount) * this.taxPercent) / 100;
   }
 
-  RemoveProduct(productID: string)
-  {
-    alert("Sản phẩm này đã bị xóa" + productID);
-    // Remove product
-    const index = this.products.findIndex(product => product.id == productID);
-    if(index !== -1)
-    {
-      this.products.splice(index,1)
+  handleUpdateQuantity(p: { id: number; quantity: number }) {
+    const product = this.products.find(product => product.id === p.id);
+    if (product) {
+      product.quantity = p.quantity || 0;
     }
-    
-    // Calculator money after remove product
-    let numberItems = 0;
-    let subTotal = 0;
-    let total = 0;
+  }
 
-
-    for(const product of this.products)
-    {
-      numberItems += product.quantity;
-      subTotal += product.price * product.quantity;
-      total += subTotal;
-
+  handleRemoveProduct(id: number) {
+    const index = this.products.findIndex(product => product.id === id);
+    if (index !== -1) {
+      this.products.splice(index, 1);
     }
+  }
 
-    this.subTotal = subTotal;
-    // this.numberItems = parse(numberItems.); 
-    this.total = total;
-    this.total === 0 ? this.tax = 0: this.tax = 5;
+  handleApplyPromoCode(code: string) {
+    const promoCode = this.promoCodes.find(
+      promoCode => promoCode.code === code
+    );
+    this.discountPercent = promoCode ? promoCode.discountPercent : 0;
+    this.discount = (this.subTotal * this.discountPercent) / 100;
+
+    if (this.discount > 0) {
+      alert(`The promotional code was applied.`);
+    } else {
+      alert(
+        'Sorry, the promotional code you entered is not valid! Try code "AUTUMN" (discount 10% to all cart items) or "WINTER" (discount 20% to all cart items).'
+      );
+    }
   }
 }

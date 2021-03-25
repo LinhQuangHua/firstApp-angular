@@ -9,9 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class CartSummaryComponent implements OnInit {
 
   @Input() subTotal: number;
-  @Input() total: number;
   @Input() tax: number;
-  @Input() numberItems: string;
+  @Input() discount: number;
   
   constructor() { }
 

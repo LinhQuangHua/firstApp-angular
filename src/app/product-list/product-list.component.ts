@@ -9,19 +9,31 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ProductListComponent implements OnInit {
 
-  @Input() products;
-  @Output() onRemoveProduct = new EventEmitter;
-  constructor() { }
-  @Input() numberItems: string;
-  
+  constructor() { }  
   ngOnInit(): void {
   }
 
-  removeProduct(productID: string):void
-  {
-    this.onRemoveProduct.emit(productID);
+  @Input() products;
+  @Output() onRemoveProduct = new EventEmitter();
+  @Output() onUpdateQuantity = new EventEmitter();
+  
 
-   
+  removeProduct(id: number) {
+    this.onRemoveProduct.emit(id);
+  }
+
+  
+  inputQuantity(id: number, inputElement: HTMLInputElement) {
+    const value = inputElement.value;
+    const intValue = parseInt(value);
+
+    if (intValue < 1) {
+      inputElement.value = -intValue + '';
+    } else if (value.length > 2) {
+      inputElement.value = value.slice(0, 2);
+    }
+
+    this.onUpdateQuantity.emit({ id, quantity: parseInt(inputElement.value) || '' });
   }
 
 }
